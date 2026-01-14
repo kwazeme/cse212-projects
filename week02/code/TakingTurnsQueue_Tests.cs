@@ -11,7 +11,12 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
     // run until the queue is empty
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found:  /// Test Failed. Expected Sue. Actual Tim on 9th call to GetNextPerson().
+    // 1.  Test Failed. Expected Tim. Actual Sue on 8th call to GetNextPerson().
+    // 2. The   _queue.Insert(0, person); Line in PersonQuueue.cs Enqueue method is causing the issue by adding people to the
+    // front of the queue instead of the back. It is behaving like a Stack LIFO rather than a Queue FIFO
+    // 3. The _queue[0] like likewise takes a person from the from at index 0 instead of the back of the queue.
+    // When Tim is added to the queue first before Sue, dequeue should get Tim first.
     public void TestTakingTurnsQueue_FiniteRepetition()
     {
         var bob = new Person("Bob", 2);
@@ -43,7 +48,12 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3)
     // After running 5 times, add George with 3 turns.  Run until the queue is empty.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, George, Sue, Tim, George, Tim, George
-    // Defect(s) Found: 
+    // Defect(s) Found: /// Test Failed. Expected George. Actual Sue on 8th call to GetNextPerson().
+    // 1.  Test Failed. Expected Tim. Actual Sue on 8th call to GetNextPerson().
+    // 2. The   _queue.Insert(0, person); Line in PersonQuueue.cs Enqueue method is causing the issue by adding people to the
+    // front of the queue instead of the back. It is behaving like a Stack LIFO rather than a Queue FIFO
+    // 3. The _queue[0] like likewise takes a person from the from at index 0 instead of the back of the queue.
+    // When Tim is added to the queue first before Sue, dequeue should get Tim first.
     public void TestTakingTurnsQueue_AddPlayerMidway()
     {
         var bob = new Person("Bob", 2);
@@ -85,7 +95,12 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: /// Defect Found: Test Failed. Expected Tim. Actual Sue on 8th call to GetNextPerson().
+    // 1.  Test Failed. Expected Tim. Actual Sue on 8th call to GetNextPerson().
+    // 2. The   _queue.Insert(0, person); Line in PersonQuueue.cs Enqueue method is causing the issue by adding people to the
+    // front of the queue instead of the back. It is behaving like a Stack LIFO rather than a Queue FIFO
+    // 3. The _queue[0] like likewise takes a person from the from at index 0 instead of the back of the queue.
+    // When Tim is added to the queue first before Sue, dequeue should get Tim first.
     public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
@@ -117,6 +132,11 @@ public class TakingTurnsQueueTests
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
     // Defect(s) Found: 
+    // 1.  Test Failed. Expected Tim. Actual Sue on 8th call to GetNextPerson().
+    // 2. The   _queue.Insert(0, person); Line in PersonQuueue.cs Enqueue method is causing the issue by adding people to the
+    // front of the queue instead of the back. It is behaving like a Stack LIFO rather than a Queue FIFO
+    // 3. The _queue[0] like likewise takes a person from the from at index 0 instead of the back of the queue.
+    // When Tim is added to the queue first before Sue, dequeue should get Tim first.
     public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
@@ -143,7 +163,7 @@ public class TakingTurnsQueueTests
     [TestMethod]
     // Scenario: Try to get the next person from an empty queue
     // Expected Result: Exception should be thrown with appropriate error message.
-    // Defect(s) Found: 
+    // Defect(s) Found: /// No defect found in this test case
     public void TestTakingTurnsQueue_Empty()
     {
         var players = new TakingTurnsQueue();
