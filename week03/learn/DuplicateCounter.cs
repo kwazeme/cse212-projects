@@ -1,4 +1,11 @@
-﻿public class DuplicateCounter
+﻿using System.Collections.Immutable;
+using System.ComponentModel;
+using System.Linq.Expressions;
+using System.Net.NetworkInformation;
+using System.Xml;
+using Microsoft.VisualBasic;
+
+public class DuplicateCounter
 {
     //Count how many duplicates are in a collection of data.
 
@@ -25,6 +32,19 @@
     private static int CountDuplicates(int[] data)
     {
         // Add code here.
-        return 0;
+        // implement a duplicate count of items in data
+        var unique = new HashSet<int>();
+        var seenItems = 0;
+
+        foreach (var item in data)
+        {
+            if (unique.Contains(item))
+               seenItems++;
+            else
+            {
+                unique.Add(item);
+            }
+        }
+        return seenItems;
     }
 }
