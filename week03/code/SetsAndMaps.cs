@@ -23,17 +23,30 @@ public static class SetsAndMaps
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
         var pairs = new List<string>();
-        var wordSet = new HashSet<string>(words);
+        // Initialize a HashSet to keep track of seen words
+        var seen = new HashSet<string>();
 
         foreach (var word in words)
         {
-            var reversedWord = new string(word.Reverse().ToArray());
-            if (word != reversedWord && wordSet.Contains(reversedWord))
-            {
-                pairs.Add($"{word} & {reversedWord}");
-                wordSet.Remove(word);
-                wordSet.Remove(reversedWord);
-            }
+        // resverse the word
+        string reversedWord = $"{word[1]}{word[0]}";
+
+        // skip "aa" type words
+        if (word == reversedWord) 
+        {
+            continue;
+        }
+        // check if the reversed word has been seen
+        if (seen.Contains(reversedWord))
+        {
+            // Found a match! Add the pair to the list
+            pairs.Add($"{word} & {reversedWord}");
+        }
+        else
+        {
+            // add the word to the seen set for future checks
+            seen.Add(word);
+        }
         }
 
         return pairs.ToArray();
@@ -162,13 +175,25 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         var summaries = new List<string>();
-        foreach (var feature in featureCollection.Features)
+
+        //test for null collection
+        if (featureCollection?.Features != null)
         {
-            var place = feature.Properties.Place;
-            var magnitude = feature.Properties.Mag;
-            summaries.Add($"Place: {place}, Magnitude: {magnitude}");
+            foreach (var feature in featureCollection.Features)
+            {
+                if (feature?.Properties != null && 
+                    feature.Properties.Mag.HasValue && 
+                    !string.IsNullOrEmpty(feature.Properties.Place))
+                {
+                    var place = feature.Properties.Place;
+                    var magnitude = feature.Properties.Mag.Value;
+
+                    // Fix: Format output to include 'place' and 'Mag {value}'
+                    summaries.Add($"{place} - Mag {magnitude}");
+                }
+            }
         }
-        // 3. Return an array of these string descriptions.
-        return summaries.ToArray();
+     // 3. Return an array of these string descriptions.
+     return summaries.ToArray();
     }
 }
